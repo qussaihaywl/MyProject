@@ -35,8 +35,8 @@ const chartData = [
 
 const orderStatusData = [
   { name: 'قيد الانتظار', value: 12, color: '#FFC107' },
-  { name: 'قيد المعالجة', value: 8, color: '#800020' },
-  { name: 'مشحون', value: 15, color: '#D4AF37' },
+  { name: 'قيد المعالجة', value: 8, color: '#B2291E' },
+  { name: 'مشحون', value: 15, color: '#CD894E' },
   { name: 'تم التسليم', value: 25, color: '#4CAF50' },
 ];
 
@@ -699,15 +699,15 @@ export default function PremiumAdminDashboard() {
                   <AreaChart data={chartData}>
                     <defs>
                       <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#D4AF37" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="#D4AF37" stopOpacity={0}/>
+                        <stop offset="5%" stopColor="#CD894E" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#CD894E" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#800020" opacity={0.2} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#B2291E" opacity={0.2} />
                     <XAxis dataKey="date" stroke="#666" />
                     <YAxis stroke="#666" />
                     <Tooltip />
-                    <Area type="monotone" dataKey="revenue" stroke="#D4AF37" fillOpacity={1} fill="url(#colorRevenue)" name="الإيرادات" />
+                    <Area type="monotone" dataKey="revenue" stroke="#CD894E" fillOpacity={1} fill="url(#colorRevenue)" name="الإيرادات" />
                   </AreaChart>
                 </ResponsiveContainer>
               </Card>

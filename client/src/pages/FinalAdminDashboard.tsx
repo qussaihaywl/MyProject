@@ -45,7 +45,7 @@ const chartData = [
   { month: 'مايو', sales: 1890, revenue: 4800 },
 ];
 
-const COLORS = ['#d97706', '#800020', '#f59e0b', '#fbbf24'];
+const COLORS = ['#C67B3F', '#B2291E', '#D18E51', '#E0B27D'];
 
 interface Notification {
   id: number;
@@ -310,13 +310,13 @@ export default function FinalAdminDashboard() {
                 <h3 className="text-lg font-bold text-amber-900 mb-4">مبيعات هذا الشهر</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#fcd34d" />
-                    <XAxis dataKey="month" stroke="#92400e" />
-                    <YAxis stroke="#92400e" />
-                    <Tooltip contentStyle={{ backgroundColor: '#fef3c7', border: '1px solid #d97706' }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E6BE93" />
+                    <XAxis dataKey="month" stroke="#7E1A14" />
+                    <YAxis stroke="#7E1A14" />
+                    <Tooltip contentStyle={{ backgroundColor: '#fef3c7', border: '1px solid #C67B3F' }} />
                     <Legend />
-                    <Line type="monotone" dataKey="sales" stroke="#d97706" strokeWidth={2} name="المبيعات" />
-                    <Line type="monotone" dataKey="revenue" stroke="#800020" strokeWidth={2} name="الإيرادات" />
+                    <Line type="monotone" dataKey="sales" stroke="#C67B3F" strokeWidth={2} name="المبيعات" />
+                    <Line type="monotone" dataKey="revenue" stroke="#B2291E" strokeWidth={2} name="الإيرادات" />
                   </LineChart>
                 </ResponsiveContainer>
               </Card>
@@ -600,13 +600,13 @@ export default function FinalAdminDashboard() {
               <h3 className="text-lg font-bold text-amber-900 mb-4">تحليل المبيعات</h3>
               <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#fcd34d" />
-                  <XAxis dataKey="month" stroke="#92400e" />
-                  <YAxis stroke="#92400e" />
-                  <Tooltip contentStyle={{ backgroundColor: '#fef3c7', border: '1px solid #d97706' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#E6BE93" />
+                  <XAxis dataKey="month" stroke="#7E1A14" />
+                  <YAxis stroke="#7E1A14" />
+                  <Tooltip contentStyle={{ backgroundColor: '#fef3c7', border: '1px solid #C67B3F' }} />
                   <Legend />
-                  <Bar dataKey="sales" fill="#d97706" name="المبيعات" />
-                  <Bar dataKey="revenue" fill="#800020" name="الإيرادات" />
+                  <Bar dataKey="sales" fill="#C67B3F" name="المبيعات" />
+                  <Bar dataKey="revenue" fill="#B2291E" name="الإيرادات" />
                 </BarChart>
               </ResponsiveContainer>
             </Card>

@@ -28,8 +28,8 @@ const chartData = [
 
 const orderStatusData = [
   { name: 'Pending', value: 12, color: '#FFC107' },
-  { name: 'Processing', value: 8, color: '#800020' },
-  { name: 'Shipped', value: 15, color: '#D4AF37' },
+  { name: 'Processing', value: 8, color: '#B2291E' },
+  { name: 'Shipped', value: 15, color: '#CD894E' },
   { name: 'Delivered', value: 25, color: '#4CAF50' },
 ];
 
@@ -60,7 +60,7 @@ const users = [
 const KPICard = ({ icon: Icon, title, value, change, color }: any) => (
   <div className={`relative overflow-hidden rounded-2xl p-6 text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer group`}
     style={{
-      background: `linear-gradient(135deg, ${color === 'gold' ? '#D4AF37' : color === 'pink' ? '#800020' : color === 'rose' ? '#C2185B' : '#F4D03F'} 0%, ${color === 'gold' ? '#F4D03F' : color === 'pink' ? '#F06292' : color === 'rose' ? '#800020' : '#FFC107'} 100%)`,
+      background: `linear-gradient(135deg, ${color === 'gold' ? '#CD894E' : color === 'pink' ? '#B2291E' : color === 'rose' ? '#C2185B' : '#F4D03F'} 0%, ${color === 'gold' ? '#F4D03F' : color === 'pink' ? '#F06292' : color === 'rose' ? '#B2291E' : '#FFC107'} 100%)`,
     }}>
     {/* Background decoration */}
     <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-300"></div>
@@ -257,10 +257,10 @@ export default function AdvancedAdminDashboard() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#E0E0E0" />
                     <XAxis dataKey="date" stroke="#999" />
                     <YAxis stroke="#999" />
-                    <Tooltip contentStyle={{ backgroundColor: '#fff', border: '2px solid #D4AF37', borderRadius: '8px' }} />
+                    <Tooltip contentStyle={{ backgroundColor: '#fff', border: '2px solid #CD894E', borderRadius: '8px' }} />
                     <Legend />
-                    <Area type="monotone" dataKey="revenue" fill="#D4AF37" stroke="#D4AF37" fillOpacity={0.2} />
-                    <Bar dataKey="orders" fill="#800020" />
+                    <Area type="monotone" dataKey="revenue" fill="#CD894E" stroke="#CD894E" fillOpacity={0.2} />
+                    <Bar dataKey="orders" fill="#B2291E" />
                   </ComposedChart>
                 </ResponsiveContainer>
               </Card>
