@@ -22,8 +22,8 @@ const AdvancedAnalytics = () => {
 
   // Product category distribution
   const categoryData = [
-    { name: 'ملابس', value: 45, color: '#F59E0B' },
-    { name: 'أثاث', value: 30, color: '#EC4899' },
+    { name: 'ملابس', value: 45, color: '#D18E51' },
+    { name: 'أثاث', value: 30, color: '#B2291E' },
     { name: 'إكسسوارات', value: 25, color: '#8B5CF6' },
   ];
 
@@ -106,15 +106,15 @@ const AdvancedAnalytics = () => {
               <AreaChart data={salesData}>
                 <defs>
                   <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#F59E0B" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#D18E51" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#D18E51" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
-                <Area type="monotone" dataKey="sales" stroke="#F59E0B" fillOpacity={1} fill="url(#colorSales)" />
+                <Area type="monotone" dataKey="sales" stroke="#D18E51" fillOpacity={1} fill="url(#colorSales)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -129,7 +129,7 @@ const AdvancedAnalytics = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="revenue" fill="#EC4899" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="revenue" fill="#B2291E" radius={[8, 8, 0, 0]} />
                 <Bar dataKey="customers" fill="#8B5CF6" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -169,7 +169,7 @@ const AdvancedAnalytics = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="visits" stroke="#F59E0B" strokeWidth={2} />
+                <Line type="monotone" dataKey="visits" stroke="#D18E51" strokeWidth={2} />
                 <Line type="monotone" dataKey="bounce" stroke="#EF4444" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>

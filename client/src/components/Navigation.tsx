@@ -267,7 +267,7 @@ export default function Navigation() {
               <Link href="/login">
                 <button 
                   onClick={() => setSidebarOpen(false)}
-                  className="w-full p-2.5 sm:p-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:from-blue-700 hover:to-blue-800 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200 flex items-center gap-2 border border-blue-400/20 hover:border-blue-300"
+                  className="w-full p-2.5 sm:p-3 rounded-lg bg-gradient-to-r from-red-700 to-red-800 text-white font-semibold hover:from-red-800 hover:to-red-900 hover:shadow-lg hover:shadow-amber-500/20 transition-all duration-200 flex items-center gap-2 border border-amber-400/30 hover:border-amber-300"
                 >
                   <LogIn size={20} className="flex-shrink-0" />
                   <span className="text-right text-sm">تسجيل دخول</span>
@@ -276,7 +276,7 @@ export default function Navigation() {
               <Link href="/register">
                 <button 
                   onClick={() => setSidebarOpen(false)}
-                  className="w-full p-2.5 sm:p-3 rounded-lg bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold hover:from-green-700 hover:to-green-800 hover:shadow-lg hover:shadow-green-500/20 transition-all duration-200 flex items-center gap-2 border border-green-400/20 hover:border-green-300"
+                  className="w-full p-2.5 sm:p-3 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-red-950 font-semibold hover:from-amber-500 hover:to-amber-600 hover:shadow-lg hover:shadow-amber-500/30 transition-all duration-200 flex items-center gap-2 border border-amber-300/40 hover:border-amber-200"
                 >
                   <UserPlus size={20} className="flex-shrink-0" />
                   <span className="text-right text-sm">تسجيل جديد</span>
