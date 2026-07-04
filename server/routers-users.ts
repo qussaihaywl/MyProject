@@ -97,29 +97,33 @@ export const usersRouter = router({
         .offset(input.offset);
 
       return {
-        users: results,
+        users: results.map(({ password: _pw, ...rest }: any) => rest),
         total: total.length,
         limit: input.limit,
         offset: input.offset,
       };
     }),
 
-  // Get single user details
+  // Get single user details (admin only)
   getUserById: protectedProcedure
     .input(z.object({ userId: z.number() }))
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
+      if (ctx.user?.role !== 'admin' && ctx.user?.id !== input.userId) {
+        throw new TRPCError({ code: "FORBIDDEN", message: "ليس لديك صلاحيات" });
+      }
       const user = await db.getUserById(input.userId);
       if (!user) {
         throw new TRPCError({ code: "NOT_FOUND", message: "المستخدم غير موجود" });
       }
 
+      const { password: _pw, ...safeUser } = user as any;
       return {
-        ...user,
+        ...safeUser,
         permissions: user.permissions ? JSON.parse(user.permissions) : [],
       };
     }),
 
-  // Update user role
+  // Update user role (admin only)
   updateUserRole: protectedProcedure
     .input(
       z.object({
@@ -128,12 +132,8 @@ export const usersRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      // Prevent non-super-admins from creating admins
-      if (input.role === "admin" && ctx.user?.role !== "admin") {
-        throw new TRPCError({
-          code: "FORBIDDEN",
-          message: "لا يمكنك إنشاء مسؤول جديد",
-        });
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: "FORBIDDEN", message: "ليس لديك صلاحيات" });
       }
 
       const db_instance = await db.getDb();
@@ -161,7 +161,7 @@ export const usersRouter = router({
       return { success: true };
     }),
 
-  // Update user status
+  // Update user status (admin only)
   updateUserStatus: protectedProcedure
     .input(
       z.object({
@@ -171,6 +171,9 @@ export const usersRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: "FORBIDDEN", message: "ليس لديك صلاحيات" });
+      }
       const db_instance = await db.getDb();
       if (!db_instance) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
@@ -197,7 +200,7 @@ export const usersRouter = router({
       return { success: true };
     }),
 
-  // Update user permissions
+  // Update user permissions (admin only)
   updateUserPermissions: protectedProcedure
     .input(
       z.object({
@@ -206,6 +209,9 @@ export const usersRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: "FORBIDDEN", message: "ليس لديك صلاحيات" });
+      }
       const db_instance = await db.getDb();
       if (!db_instance) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
@@ -230,7 +236,7 @@ export const usersRouter = router({
       return { success: true };
     }),
 
-  // Reset user password
+  // Reset user password (admin only)
   resetUserPassword: protectedProcedure
     .input(
       z.object({
@@ -239,6 +245,9 @@ export const usersRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: "FORBIDDEN", message: "ليس لديك صلاحيات" });
+      }
       const hashedPassword = await db.hashPassword(input.newPassword);
       const db_instance = await db.getDb();
       if (!db_instance) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
@@ -314,7 +323,7 @@ export const usersRouter = router({
     };
   }),
 
-  // Get all users (alias for getAllUsers)
+  // Get all users (admin only)
   getAll: protectedProcedure
     .input(
       z.object({
@@ -325,12 +334,15 @@ export const usersRouter = router({
         offset: z.number().default(0),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: "FORBIDDEN", message: "ليس لديك صلاحيات" });
+      }
       const db_instance = await db.getDb();
       if (!db_instance) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
       let query = db_instance.select().from(users);
-      const allUsers = await query as any[];
+      const allUsers = (await query as any[]).map(({ password: _pw, ...rest }: any) => rest);
 
       return allUsers;
     }),
@@ -380,8 +392,11 @@ export const usersRouter = router({
 
 
 
-  // Get user statistics (legacy name)
+  // Get user statistics (admin only)
   getUserStatistics: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.user?.role !== 'admin') {
+      throw new TRPCError({ code: "FORBIDDEN", message: "ليس لديك صلاحيات" });
+    }
     const db_instance = await db.getDb();
     if (!db_instance) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
@@ -429,8 +444,9 @@ export const usersRouter = router({
       throw new TRPCError({ code: "NOT_FOUND" });
     }
 
+    const { password: _pw, ...safeUser } = user as any;
     return {
-      ...user,
+      ...safeUser,
       permissions: user.permissions ? JSON.parse(user.permissions) : [],
     };
   }),
@@ -505,8 +521,9 @@ export const usersRouter = router({
         throw new TRPCError({ code: "NOT_FOUND" });
       }
 
+      const { password: _pw, ...safeUser } = user as any;
       return {
-        ...user,
+        ...safeUser,
         permissions: user.permissions ? JSON.parse(user.permissions) : [],
       };
     }),
@@ -626,13 +643,16 @@ export const usersRouter = router({
       };
     }),
 
-  // Get all users for dashboard
+  // Get all users for dashboard (admin only)
   getDashboardUsers: protectedProcedure
     .query(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: "FORBIDDEN", message: "ليس لديك صلاحيات" });
+      }
       const db_instance = await db.getDb();
       if (!db_instance) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      const allUsers = await db_instance.select().from(users);
+      const allUsers = (await db_instance.select().from(users)).map(({ password: _pw, ...rest }: any) => rest);
 
       return {
         totalUsers: allUsers.length,

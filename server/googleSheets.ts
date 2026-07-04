@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { ENV } from './_core/env';
 
-// معرف جدول البيانات
-const SPREADSHEET_ID = '1Vae_gECGaJZlJeDJOFy9BhB2YVqgEiUApMwnVbtJo1c';
-const SHEET_NAME = 'المنتجات';
+const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID ?? '';
+const SHEET_NAME = process.env.GOOGLE_SHEET_NAME ?? 'المنتجات';
 
 // دالة لإرسال المنتج إلى Google Sheets عبر Apps Script
 export async function sendProductToGoogleSheets(productData: {
