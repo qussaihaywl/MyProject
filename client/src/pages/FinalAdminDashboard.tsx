@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
+import { downloadCSV } from '@/lib/export-utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -146,17 +147,9 @@ export default function FinalAdminDashboard() {
   };
 
   const exportToCSV = (data: any[], filename: string) => {
-    const csv = [
-      Object.keys(data[0]).join(','),
-      ...data.map(row => Object.values(row).join(','))
-    ].join('\n');
-    
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${filename}.csv`;
-    a.click();
+    const headers = Object.keys(data[0]);
+    const rows = data.map(row => headers.map(h => row[h]));
+    downloadCSV(headers, rows, `${filename}.csv`);
     addNotification('تم التصدير', `تم تصدير ${filename} بنجاح`, 'success');
   };
 

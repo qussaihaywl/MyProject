@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { downloadCSV } from "@/lib/export-utils";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -143,12 +144,7 @@ export default function UsersManagement() {
       new Date(u.createdAt).toLocaleDateString('ar-EG'),
     ]);
 
-    const csv = [headers, ...data].map(row => row.map(cell => `"${cell}"`).join(",")).join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `users-${new Date().toISOString().split('T')[0]}.csv`;
-    link.click();
+    downloadCSV(headers, data, `users-${new Date().toISOString().split('T')[0]}.csv`);
     toast.success("تم تصدير البيانات بنجاح");
   };
 

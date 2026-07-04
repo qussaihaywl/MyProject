@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { downloadCSV } from '@/lib/export-utils';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -73,17 +74,7 @@ export default function AuditLog() {
       JSON.stringify(log.metadata),
     ]);
 
-    const csv = [
-      headers.join(','),
-      ...rows.map((row: any) => row.map((cell: any) => `"${cell}"`).join(',')),
-    ].join('\n');
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `audit-log-${new Date().toISOString().split('T')[0]}.csv`);
-    link.click();
+    downloadCSV(headers, rows, `audit-log-${new Date().toISOString().split('T')[0]}.csv`);
     toast.success('تم تصدير السجل بنجاح');
   };
 

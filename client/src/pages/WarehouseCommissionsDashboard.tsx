@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { downloadCSV } from "@/lib/export-utils";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -93,24 +94,18 @@ export default function WarehouseCommissionsDashboard() {
   }, [commissions]);
 
   const handleExport = () => {
-    const csv = [
-      ["كود المستودع", "نوع العمولة", "نسبة العمولة", "المبلغ الإجمالي", "مبلغ العمولة", "الحالة", "التاريخ"],
-      ...filteredAndSortedCommissions.map((c: WarehouseCommission) => [
-        c.warehouseCode,
-        c.commissionType === "percentage" ? "نسبة مئوية" : "مبلغ ثابت",
-        c.commissionRate,
-        c.totalOrderAmount,
-        c.commissionAmount,
-        c.status,
-        new Date(c.createdAt).toLocaleDateString("ar-JO")
-      ])
-    ].map(row => row.join(",")).join("\n");
+    const headers = ["كود المستودع", "نوع العمولة", "نسبة العمولة", "المبلغ الإجمالي", "مبلغ العمولة", "الحالة", "التاريخ"];
+    const rows = filteredAndSortedCommissions.map((c: WarehouseCommission) => [
+      c.warehouseCode,
+      c.commissionType === "percentage" ? "نسبة مئوية" : "مبلغ ثابت",
+      c.commissionRate,
+      c.totalOrderAmount,
+      c.commissionAmount,
+      c.status,
+      new Date(c.createdAt).toLocaleDateString("ar-JO")
+    ]);
 
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `warehouse-commissions-${new Date().toISOString().split('T')[0]}.csv`;
-    link.click();
+    downloadCSV(headers, rows, `warehouse-commissions-${new Date().toISOString().split('T')[0]}.csv`);
     toast.success("تم تحميل التقرير!");
   };
 

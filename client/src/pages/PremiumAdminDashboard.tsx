@@ -17,6 +17,7 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/_core/hooks/useAuth';
+import { downloadBlob } from '@/lib/export-utils';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
@@ -318,13 +319,7 @@ export default function PremiumAdminDashboard() {
     } else if (type === 'inventory') {
       data = JSON.stringify(inventory, null, 2);
     }
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
-    element.setAttribute('download', `${type}-export-${new Date().toISOString().split('T')[0]}.json`);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    downloadBlob(data, `${type}-export-${new Date().toISOString().split('T')[0]}.json`, 'application/json;charset=utf-8;');
     toast.success(`تم تصدير بيانات ${type} بنجاح`);
   };
 
