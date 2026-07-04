@@ -1,0 +1,11 @@
+Rose Online v2.0 - Production Deployment
+Build Date: 2026-06-13
+Features:
+- Product Management Dashboard with full CRUD operations
+- Jordanian Dinar (د.ا) currency throughout the site
+- Facebook sharing with product images and details
+- Modern elegant UI with amber and orange gradients
+- Advanced filtering, sorting, and export capabilities
+- Responsive design for all devices
+
+This is the latest production-ready version.

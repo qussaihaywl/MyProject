@@ -1,0 +1,11 @@
+id,email,name,phone,role,passwordHash,isEmailVerified,createdAt,updatedAt
+1,customer1@rose.com,فاطمة أحمد,0501234567,user,$2b$10$...,1,2026-06-28,2026-06-28
+2,customer2@rose.com,نور محمد,0502345678,user,$2b$10$...,1,2026-06-28,2026-06-28
+3,customer3@rose.com,ليلى علي,0503456789,user,$2b$10$...,1,2026-06-28,2026-06-28
+4,customer4@rose.com,سارة خالد,0504567890,user,$2b$10$...,1,2026-06-28,2026-06-28
+5,customer5@rose.com,مريم أحمد,0505678901,user,$2b$10$...,1,2026-06-28,2026-06-28
+6,delegate1@rose.com,محمد علي,0506789012,delegate,$2b$10$...,1,2026-06-28,2026-06-28
+7,delegate2@rose.com,أحمد محمد,0507890123,delegate,$2b$10$...,1,2026-06-28,2026-06-28
+8,supervisor@rose.com,خالد سالم,0508901234,supervisor,$2b$10$...,1,2026-06-28,2026-06-28
+9,admin@rose.com,مسؤول النظام,0509012345,admin,$2b$10$...,1,2026-06-28,2026-06-28
+10,manager@rose.com,مدير المتجر,0500123456,admin,$2b$10$...,1,2026-06-28,2026-06-28
