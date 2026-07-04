@@ -23,7 +23,7 @@ interface DelegateCommission {
   createdAt: Date;
 }
 
-const COLORS = ["#f43f5e", "#ec4899", "#f97316", "#eab308", "#22c55e", "#06b6d4", "#3b82f6"];
+const COLORS = ["#f43f5e", "#800020", "#f97316", "#eab308", "#22c55e", "#06b6d4", "#3b82f6"];
 
 export default function DelegateCommissionsDashboard() {
   const commissionsQuery = trpc.commissions.delegate.getAll.useQuery();

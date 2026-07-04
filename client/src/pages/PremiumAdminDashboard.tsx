@@ -35,7 +35,7 @@ const chartData = [
 
 const orderStatusData = [
   { name: 'قيد الانتظار', value: 12, color: '#FFC107' },
-  { name: 'قيد المعالجة', value: 8, color: '#E91E63' },
+  { name: 'قيد المعالجة', value: 8, color: '#800020' },
   { name: 'مشحون', value: 15, color: '#D4AF37' },
   { name: 'تم التسليم', value: 25, color: '#4CAF50' },
 ];
@@ -703,7 +703,7 @@ export default function PremiumAdminDashboard() {
                         <stop offset="95%" stopColor="#D4AF37" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#E91E63" opacity={0.2} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#800020" opacity={0.2} />
                     <XAxis dataKey="date" stroke="#666" />
                     <YAxis stroke="#666" />
                     <Tooltip />

@@ -22,7 +22,7 @@ interface WarehouseCommission {
   createdAt: Date;
 }
 
-const COLORS = ["#f43f5e", "#ec4899", "#f97316", "#eab308", "#22c55e", "#06b6d4", "#3b82f6", "#8b5cf6"];
+const COLORS = ["#f43f5e", "#800020", "#f97316", "#eab308", "#22c55e", "#06b6d4", "#3b82f6", "#8b5cf6"];
 
 export default function WarehouseCommissionsDashboard() {
   const commissionsQuery = trpc.commissions.warehouse.getAll.useQuery();

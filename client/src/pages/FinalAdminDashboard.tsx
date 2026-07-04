@@ -45,7 +45,7 @@ const chartData = [
   { month: 'مايو', sales: 1890, revenue: 4800 },
 ];
 
-const COLORS = ['#d97706', '#ec4899', '#f59e0b', '#fbbf24'];
+const COLORS = ['#d97706', '#800020', '#f59e0b', '#fbbf24'];
 
 interface Notification {
   id: number;
@@ -316,7 +316,7 @@ export default function FinalAdminDashboard() {
                     <Tooltip contentStyle={{ backgroundColor: '#fef3c7', border: '1px solid #d97706' }} />
                     <Legend />
                     <Line type="monotone" dataKey="sales" stroke="#d97706" strokeWidth={2} name="المبيعات" />
-                    <Line type="monotone" dataKey="revenue" stroke="#ec4899" strokeWidth={2} name="الإيرادات" />
+                    <Line type="monotone" dataKey="revenue" stroke="#800020" strokeWidth={2} name="الإيرادات" />
                   </LineChart>
                 </ResponsiveContainer>
               </Card>
@@ -606,7 +606,7 @@ export default function FinalAdminDashboard() {
                   <Tooltip contentStyle={{ backgroundColor: '#fef3c7', border: '1px solid #d97706' }} />
                   <Legend />
                   <Bar dataKey="sales" fill="#d97706" name="المبيعات" />
-                  <Bar dataKey="revenue" fill="#ec4899" name="الإيرادات" />
+                  <Bar dataKey="revenue" fill="#800020" name="الإيرادات" />
                 </BarChart>
               </ResponsiveContainer>
             </Card>

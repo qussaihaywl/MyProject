@@ -63,7 +63,7 @@ interface OrderStats {
 
 const COLORS = [
   "#8b5cf6",
-  "#ec4899",
+  "#800020",
   "#f59e0b",
   "#10b981",
   "#3b82f6",
@@ -277,7 +277,7 @@ export default function Analytics() {
                     <Line
                       type="monotone"
                       dataKey="orders"
-                      stroke="#ec4899"
+                      stroke="#800020"
                       name="الطلبات"
                     />
                   </LineChart>

@@ -23,7 +23,7 @@ const AdvancedAnalytics = () => {
   // Product category distribution
   const categoryData = [
     { name: 'ملابس', value: 45, color: '#F59E0B' },
-    { name: 'أثاث', value: 30, color: '#EC4899' },
+    { name: 'أثاث', value: 30, color: '#800020' },
     { name: 'إكسسوارات', value: 25, color: '#8B5CF6' },
   ];
 
@@ -129,7 +129,7 @@ const AdvancedAnalytics = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="revenue" fill="#EC4899" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="revenue" fill="#800020" radius={[8, 8, 0, 0]} />
                 <Bar dataKey="customers" fill="#8B5CF6" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
