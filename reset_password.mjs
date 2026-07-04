@@ -1,18 +1,26 @@
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
 
-const DATABASE_URL = process.env.DATABASE_URL || 'mysql://BQ974NdfamoyHhH.21342fb66f7a:M12wer0ovI6TGV4SIU7r@gateway06.us-east-1.prod.aws.tidbcloud.com:4000/PbM5MRSPLRoPndpAwMBnHr?ssl={"rejectUnauthorized":true}';
+const DATABASE_URL = process.env.DATABASE_URL;
+if (!DATABASE_URL) {
+  console.error("DATABASE_URL environment variable is required");
+  process.exit(1);
+}
 
 async function resetPassword() {
   try {
     const connection = await mysql.createConnection(DATABASE_URL);
     
     // Hash the new password
-    const newPassword = 'Qussai@Rose';
+    const newPassword = process.env.NEW_PASSWORD;
+    if (!newPassword) {
+      console.error("NEW_PASSWORD environment variable is required");
+      process.exit(1);
+    }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
     
-    console.log('New hashed password:', hashedPassword);
+
     
     // Update password for Rose ONLIEN
     const [result] = await connection.execute(
@@ -25,7 +33,7 @@ async function resetPassword() {
     if (result.affectedRows > 0) {
       console.log('✅ Password updated successfully!');
       console.log(`Email: roseonlien0@gmail.com`);
-      console.log(`New Password: ${newPassword}`);
+      console.log('Password updated successfully');
     } else {
       console.log('❌ No user found with that email');
     }

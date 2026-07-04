@@ -97,16 +97,17 @@ export async function loginUser(email: string, password: string): Promise<any> {
   const user = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
   if (!user || user.length === 0) {
-    throw new Error("User not found");
+    throw new Error("البريد الإلكتروني أو كلمة المرور غير صحيحة");
   }
 
   const isPasswordValid = await verifyPassword(password, user[0].password || "");
 
   if (!isPasswordValid) {
-    throw new Error("Invalid password");
+    throw new Error("البريد الإلكتروني أو كلمة المرور غير صحيحة");
   }
 
-  return user[0];
+  const { password: _pw, ...safeUser } = user[0];
+  return safeUser;
 }
 
 // Get user by email
@@ -684,12 +685,17 @@ export async function getProductShares(productId: number) {
 export async function createAdminUser() {
   const db = await getDb();
   if (!db) return;
-  
-  const adminEmail = "admin@rose.com";
+
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminEmail || !adminPassword) {
+    return;
+  }
+
   const existingAdmin = await db.select().from(users).where(eq(users.email, adminEmail)).limit(1);
-  
+
   if (existingAdmin.length === 0) {
-    const hashedPassword = await hashPassword("admin123456");
+    const hashedPassword = await hashPassword(adminPassword);
     await db.insert(users).values({
       name: "مسؤول النظام",
       email: adminEmail,
@@ -699,7 +705,6 @@ export async function createAdminUser() {
       role: "admin",
       isActive: true,
     });
-    console.log("[Init] Admin user created successfully");
   }
 }
 

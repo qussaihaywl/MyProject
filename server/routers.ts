@@ -20,7 +20,10 @@ import { sendOrderConfirmationSMS } from "./_core/sms";
 import { getDb } from "./db";
 import { loyaltyPoints } from "../drizzle/schema";
 
-const JWT_SECRET = new TextEncoder().encode(ENV.cookieSecret || "your-secret-key");
+if (!ENV.cookieSecret) {
+  throw new Error("JWT_SECRET environment variable is required");
+}
+const JWT_SECRET = new TextEncoder().encode(ENV.cookieSecret);
 
 export const appRouter = router({
   system: systemRouter,
@@ -76,7 +79,8 @@ export const appRouter = router({
           const cookieOptions = getSessionCookieOptions(ctx.req);
           ctx.res.cookie(COOKIE_NAME, token, { ...cookieOptions, maxAge: 7 * 24 * 60 * 60 * 1000 });
 
-          return { success: true, user, token };
+          const { password: _pw, ...safeUser } = user as any;
+          return { success: true, user: safeUser };
         } catch (error: any) {
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: error.message });
         }
@@ -111,7 +115,8 @@ export const appRouter = router({
           const cookieOptions = getSessionCookieOptions(ctx.req);
           ctx.res.cookie(COOKIE_NAME, token, { ...cookieOptions, maxAge: 7 * 24 * 60 * 60 * 1000 });
 
-          return { success: true, user, token };
+          const { password: _pw, ...safeUser } = user as any;
+          return { success: true, user: safeUser };
         } catch (error: any) {
           throw new TRPCError({ code: "UNAUTHORIZED", message: error.message });
         }
@@ -417,7 +422,7 @@ export const appRouter = router({
       return await db.getChatRooms(ctx.user.id);
     }),
 
-    getMessages: publicProcedure
+    getMessages: protectedProcedure
       .input(z.object({ roomId: z.number(), limit: z.number().optional() }))
       .query(async ({ input }) => {
         return await db.getMessages(input.roomId);
@@ -585,8 +590,8 @@ export const appRouter = router({
     delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) {
-          throw new TRPCError({ code: "UNAUTHORIZED", message: "يجب تسجيل الدخول" });
+        if (!ctx.user || ctx.user.role !== 'admin') {
+          throw new TRPCError({ code: "FORBIDDEN", message: "ليس لديك صلاحية" });
         }
         return await db.deleteOrder(input.id);
       }),
@@ -706,13 +711,19 @@ export const appRouter = router({
         return result;
       }),
 
-    list: publicProcedure.query(async () => {
+    list: protectedProcedure.query(async ({ ctx }) => {
+      if (!ctx.user || ctx.user.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'ليس لديك صلاحية' });
+      }
       return await db.getAdvancedOrders();
     }),
 
-    getById: publicProcedure
+    getById: protectedProcedure
       .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
+      .query(async ({ input, ctx }) => {
+        if (!ctx.user) {
+          throw new TRPCError({ code: 'UNAUTHORIZED', message: 'يجب تسجيل الدخول' });
+        }
         return await db.getAdvancedOrderById(input.id);
       }),
 

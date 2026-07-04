@@ -57,12 +57,6 @@ export default function Login() {
       });
 
       if (result.success) {
-        // Save token to localStorage
-        if (result.token) {
-          localStorage.setItem("auth_token", result.token);
-          console.log("Token saved to localStorage:", result.token);
-        }
-        
         if (rememberMe) {
           localStorage.setItem("rememberEmail", formData.email);
         } else {

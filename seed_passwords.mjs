@@ -20,6 +20,12 @@ async function hashPassword(password) {
 
 // Set passwords for all users
 async function seedPasswords() {
+  const defaultPassword = process.env.SEED_PASSWORD;
+  if (!defaultPassword) {
+    console.error("SEED_PASSWORD environment variable is required");
+    process.exit(1);
+  }
+
   try {
     const connection = await pool.getConnection();
     
@@ -29,16 +35,15 @@ async function seedPasswords() {
 
     // Set password for each user
     for (const user of users) {
-      const hashedPassword = await hashPassword("Test@123456");
+      const hashedPassword = await hashPassword(defaultPassword);
       await connection.query(
         "UPDATE users SET password = ? WHERE id = ?",
         [hashedPassword, user.id]
       );
-      console.log(`✅ Set password for ${user.email}`);
+      console.log(`Set password for ${user.email}`);
     }
 
-    console.log("\n✅ All passwords set successfully!");
-    console.log("Default password: Test@123456");
+    console.log("\nAll passwords set successfully!");
     
     connection.release();
 
