@@ -147,7 +147,7 @@ export default function FinalAdminDashboard() {
   };
 
   const exportToCSV = (data: any[], filename: string) => {
-    const headers = Object.keys(data[0]);
+    const headers = Object.keys(data[0] || {});
     const rows = data.map(row => headers.map(h => row[h]));
     downloadCSV(headers, rows, `${filename}.csv`);
     addNotification('تم التصدير', `تم تصدير ${filename} بنجاح`, 'success');
