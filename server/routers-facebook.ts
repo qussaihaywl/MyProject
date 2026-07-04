@@ -32,9 +32,12 @@ export const facebookRouter = {
 
         return { success: true, message: "تم إضافة صفحة Facebook بنجاح" };
       } catch (error) {
+        if (error instanceof TRPCError) throw error;
+        console.error("[Facebook] Failed to add page:", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "فشل إضافة صفحة Facebook",
+          cause: error,
         });
       }
     }),
@@ -69,9 +72,12 @@ export const facebookRouter = {
           message: "تم نشر المنتج على Facebook بنجاح",
         };
       } catch (error) {
+        if (error instanceof TRPCError) throw error;
+        console.error("[Facebook] Failed to share product:", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "فشل نشر المنتج على Facebook",
+          cause: error,
         });
       }
     }),

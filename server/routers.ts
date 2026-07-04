@@ -77,8 +77,14 @@ export const appRouter = router({
           ctx.res.cookie(COOKIE_NAME, token, { ...cookieOptions, maxAge: 7 * 24 * 60 * 60 * 1000 });
 
           return { success: true, user, token };
-        } catch (error: any) {
-          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: error.message });
+        } catch (error) {
+          if (error instanceof TRPCError) throw error;
+          console.error("[Auth] Registration failed:", error);
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: error instanceof Error ? error.message : "فشل إنشاء الحساب",
+            cause: error,
+          });
         }
       }),
 
@@ -112,8 +118,14 @@ export const appRouter = router({
           ctx.res.cookie(COOKIE_NAME, token, { ...cookieOptions, maxAge: 7 * 24 * 60 * 60 * 1000 });
 
           return { success: true, user, token };
-        } catch (error: any) {
-          throw new TRPCError({ code: "UNAUTHORIZED", message: error.message });
+        } catch (error) {
+          if (error instanceof TRPCError) throw error;
+          console.error("[Auth] Login failed:", error);
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: error instanceof Error ? error.message : "بيانات الدخول غير صحيحة",
+            cause: error,
+          });
         }
       }),
   }),
@@ -278,7 +290,8 @@ export const appRouter = router({
           );
           return { url: result.url };
         } catch (error) {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'فشل رفع الصورة' });
+          console.error('[Products] Image upload failed:', error);
+          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'فشل رفع الصورة', cause: error });
         }
       }),
 
@@ -450,7 +463,7 @@ export const appRouter = router({
           return response;
         } catch (error) {
           console.error("خطأ في AI Chat:", error);
-          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "خطأ في معالجة الرسالة" });
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "خطأ في معالجة الرسالة", cause: error });
         }
       }),
 
