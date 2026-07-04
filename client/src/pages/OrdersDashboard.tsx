@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { downloadCSV } from '@/lib/export-utils';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -97,15 +98,7 @@ export default function OrdersDashboard() {
       new Date(order.createdAt).toLocaleDateString('ar-JO'),
     ]);
 
-    const csv = [headers, ...rows]
-      .map(row => row.map(cell => `"${cell}"`).join(','))
-      .join('\n');
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `orders-${Date.now()}.csv`;
-    link.click();
+    downloadCSV(headers, rows, `orders-${Date.now()}.csv`);
   };
 
   if (!user) {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
+import { downloadCSV } from '@/lib/export-utils';
 // import ActivityLog from '@/components/ActivityLog';
 import DashboardLayout from '@/components/DashboardLayout';
 
@@ -132,21 +133,7 @@ export default function AdminActivityLog() {
       activity.ipAddress || '-',
     ]);
 
-    const csvContent = [
-      headers.join(','),
-      ...rows.map(row => row.map(cell => `"${cell}"`).join(',')),
-    ].join('\n');
-
-    // تحميل الملف
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `activity-log-${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadCSV(headers, rows, `activity-log-${new Date().toISOString().split('T')[0]}.csv`);
   };
 
   return (

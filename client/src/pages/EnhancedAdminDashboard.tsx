@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
+import { downloadCSV, downloadBlob } from '@/lib/export-utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -164,31 +165,16 @@ const EnhancedAdminDashboard = () => {
   // Export to CSV
   const exportToCSV = (data: any[], filename: string) => {
     const headers = Object.keys(data[0] || {});
-    const csv = [
-      headers.join(','),
-      ...data.map(row => headers.map(h => `"${row[h]}"`).join(','))
-    ].join('\n');
-    
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${filename}.csv`;
-    a.click();
-    
+    const rows = data.map(row => headers.map(h => row[h]));
+    downloadCSV(headers, rows, `${filename}.csv`);
+
     addNotification('export_success', `تم تصدير ${filename} بنجاح`);
   };
 
   // Export to PDF (simplified)
   const exportToPDF = (data: any[], filename: string) => {
-    const content = JSON.stringify(data, null, 2);
-    const blob = new Blob([content], { type: 'application/pdf' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${filename}.pdf`;
-    a.click();
-    
+    downloadBlob(JSON.stringify(data, null, 2), `${filename}.pdf`, 'application/pdf');
+
     addNotification('export_success', `تم تصدير ${filename} إلى PDF بنجاح`);
   };
 

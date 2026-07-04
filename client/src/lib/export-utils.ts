@@ -2,6 +2,44 @@
  * Utility functions for exporting data to Excel and CSV formats
  */
 
+export type CSVCell = string | number | boolean | null | undefined;
+
+/**
+ * Trigger a browser download for the given content.
+ * Accepts either a Blob or a string (wrapped in a Blob using `mimeType`).
+ */
+export function downloadBlob(
+  content: Blob | string,
+  filename: string,
+  mimeType: string = 'text/csv;charset=utf-8;'
+) {
+  const blob = content instanceof Blob ? content : new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * Build a CSV string from a header row and data rows. Every cell is quoted and
+ * embedded quotes are escaped so values containing commas or quotes stay intact.
+ */
+export function buildCSV(headers: CSVCell[], rows: CSVCell[][]): string {
+  const escapeCell = (cell: CSVCell) => `"${String(cell ?? '').replace(/"/g, '""')}"`;
+  return [headers, ...rows].map((row) => row.map(escapeCell).join(',')).join('\n');
+}
+
+/**
+ * Build a CSV from header/data rows and trigger a browser download.
+ */
+export function downloadCSV(headers: CSVCell[], rows: CSVCell[][], filename: string) {
+  downloadBlob(buildCSV(headers, rows), filename);
+}
+
 /**
  * Export data to CSV format
  */

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { downloadBlob } from '@/lib/export-utils';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { AlertCircle, CheckCircle, Upload, Download, Loader2 } from 'lucide-react';
@@ -60,12 +61,7 @@ export default function ImportUsers() {
       'أحمد محمد,ahmed@example.com,0778989135,شارع الملك,عمّان,user,active\n' +
       'فاطمة علي,fatima@example.com,0779876543,شارع النيل,الزرقاء,delegate,active';
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'template-users.csv');
-    link.click();
+    downloadBlob(csv, 'template-users.csv');
   };
 
   return (
