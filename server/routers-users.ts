@@ -292,7 +292,9 @@ export const usersRouter = router({
         
         return { success: true };
       } catch (error) {
-        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "فشل حذف المستخدم" });
+        if (error instanceof TRPCError) throw error;
+        console.error("[Users] Failed to delete user:", error);
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "فشل حذف المستخدم", cause: error });
       }
     }),
 
